@@ -5,10 +5,10 @@ const examQuestions = [
         options: { A: "Palpación", B: "Inspección", C: "Percusión", D: "Auscultación" },
         correctAnswer: "B"
     },
-    {
+    { // --- PREGUNTA 2 ---
         question: "¿Qué aspecto NO forma parte de la palpación en semiología músculo‑esquelética?",
         options: { A: "Evaluación de temperatura", B: "Identificación de crepitación", C: "Medición de ángulo articular", D: "Detección de dolor a la presión" },
-        correctAnswer: "C"
+        correctAnswer: "A" // <<<--- CORREGIDO DE "C" a "A"
     },
     {
         question: "Para valorar el rango de movimiento de una articulación se utiliza principalmente:",
@@ -58,7 +58,7 @@ const examQuestions = [
     {
         question: "En la valoración de hernias inguinales, el impulso de tos se busca para determinar si la protrusión aparece:",
         options: { A: "Sobre el ligamento inguinal (hernia directa)", B: "Por dentro del canal inguinal (hernia indirecta)", C: "Bajo el ligamento inguinal (hernia femoral)", D: "Solo en decúbito supino" },
-        correctAnswer: "B" // Note: This answer key says B, which usually corresponds to Indirect Hernia. Direct is typically medial to inferior epigastric vessels, Indirect lateral. The wording might be interpreted differently, but sticking to the key provided.
+        correctAnswer: "B"
     },
     {
         question: "Para la inserción del espéculo en el examen ginecológico, la paciente debe estar en posición de:",
@@ -267,13 +267,15 @@ function endExam() {
 function calculateAndDisplayScore() {
     let correctCount = 0;
     for (let i = 0; i < examQuestions.length; i++) {
-        if (studentAnswers[i] === examQuestions[i].correctAnswer) {
+        // Check if the student provided an answer AND if it matches the correct answer
+        if (studentAnswers[i] !== null && studentAnswers[i] === examQuestions[i].correctAnswer) {
             correctCount++;
         }
     }
     const percentage = ((correctCount / examQuestions.length) * 100).toFixed(2);
     scoreDisplay.textContent = `${percentage}% (${correctCount} de ${examQuestions.length} correctas)`;
 }
+
 
 function prepareReviewDetails() {
     reviewDetailsContainer.innerHTML = ''; // Clear previous details
@@ -283,11 +285,21 @@ function prepareReviewDetails() {
         const isCorrect = userAnswer === correctAnswer;
 
         const itemDiv = document.createElement('div');
-        itemDiv.classList.add('review-item');
+        itemDiv.classList.add('review-item'); // Assuming this class is used for PDF styling if needed
+
+        let userAnswerText = 'N/A';
+        if (userAnswer !== 'No respondida' && q.options[userAnswer]) {
+            userAnswerText = `${userAnswer}) ${q.options[userAnswer]}`;
+        } else if (userAnswer !== 'No respondida') {
+            userAnswerText = `${userAnswer}) (Opción inválida?)`; // Handle potential edge case
+        } else {
+             userAnswerText = 'No respondida';
+        }
+
 
         itemDiv.innerHTML = `
             <p><strong>Pregunta ${index + 1}:</strong> ${q.question}</p>
-            <p class="selected-answer">Tu respuesta: ${userAnswer}) ${q.options[userAnswer] ?? 'N/A'}</p>
+            <p class="selected-answer">Tu respuesta: ${userAnswerText}</p>
             <p class="${isCorrect ? 'correct-answer' : 'incorrect-answer'}">
                 Respuesta Correcta: ${correctAnswer}) ${q.options[correctAnswer]}
                 ${isCorrect ? ' (Correcto)' : ' (Incorrecto)'}
@@ -316,16 +328,29 @@ function generatePDF() {
     // --- Table Data ---
     const tableData = examQuestions.map((q, index) => {
         const userAnswerCode = studentAnswers[index] ?? 'N/A';
-        const userAnswerText = userAnswerCode !== 'N/A' ? `${userAnswerCode}) ${q.options[userAnswerCode]}` : 'No respondida';
+        let userAnswerText = 'No respondida';
+        if (userAnswerCode !== 'N/A' && q.options[userAnswerCode]) {
+             userAnswerText = `${userAnswerCode}) ${q.options[userAnswerCode]}`;
+        } else if (userAnswerCode !== 'N/A') {
+             userAnswerText = `${userAnswerCode}) (Inválida?)`;
+        }
+
         const correctAnswerCode = q.correctAnswer;
         const correctAnswerText = `${correctAnswerCode}) ${q.options[correctAnswerCode]}`;
         const result = userAnswerCode === correctAnswerCode ? 'Correcto' : 'Incorrecto';
 
+        // Split long text for better table layout
+        const questionLines = doc.splitTextToSize(q.question, 65); // Max width for question column
+        const userAnswerLines = doc.splitTextToSize(userAnswerText, 35);
+        const correctAnswerLines = doc.splitTextToSize(correctAnswerText, 35);
+
+
+        // Return data potentially with arrays for multiline cells
         return [
             index + 1,
-            q.question,
-            userAnswerText,
-            correctAnswerText,
+            questionLines, // Use split text
+            userAnswerLines, // Use split text
+            correctAnswerLines, // Use split text
             result
         ];
     });
@@ -335,29 +360,36 @@ function generatePDF() {
         head: [['#', 'Pregunta', 'Tu Respuesta', 'Respuesta Correcta', 'Resultado']],
         body: tableData,
         startY: yPos,
-        headStyles: { fillColor: [0, 123, 255], textColor: 255 }, // Blue header
-        styles: { fontSize: 8, cellPadding: 2 },
+        theme: 'grid', // Added theme for better structure
+        headStyles: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold' }, // Adjusted blue header
+        styles: { fontSize: 8, cellPadding: 2, valign: 'middle' }, // Vertical align middle
         columnStyles: {
-            0: { cellWidth: 10 }, // #
+            0: { cellWidth: 10, halign: 'center' }, // #
             1: { cellWidth: 65 }, // Question
             2: { cellWidth: 35 }, // Your Answer
             3: { cellWidth: 35 }, // Correct Answer
-            4: { cellWidth: 20 }  // Result
+            4: { cellWidth: 20, halign: 'center' }  // Result
         },
         didParseCell: function (data) {
-            // Color rows based on result
+            // Color text based on result
             if (data.column.index === 4 && data.cell.section === 'body') { // Check if it's the Result column in the body
-                if (data.cell.raw === 'Incorrecto') {
-                    data.cell.styles.textColor = [255, 0, 0]; // Red
-                } else if (data.cell.raw === 'Correcto') {
-                     data.cell.styles.textColor = [0, 128, 0]; // Green
+                 // Ensure raw value is treated as string for comparison
+                const cellText = String(data.cell.raw).trim();
+                if (cellText === 'Incorrecto') {
+                    data.cell.styles.textColor = [231, 76, 60]; // Red
+                     data.cell.styles.fontStyle = 'bold';
+                } else if (cellText === 'Correcto') {
+                     data.cell.styles.textColor = [46, 204, 113]; // Green
+                     data.cell.styles.fontStyle = 'bold';
                 }
             }
         }
     });
 
     // --- Save PDF ---
-    doc.save(`Resultados_Examen_${studentName.replace(/ /g, '_')}.pdf`);
+    // Sanitize filename
+    const safeStudentName = studentName.replace(/[^a-z0-9_]/gi, '_').replace(/_+/g, '_');
+    doc.save(`Resultados_Examen_${safeStudentName || 'Estudiante'}.pdf`);
 }
 
 // --- Initial Setup ---
