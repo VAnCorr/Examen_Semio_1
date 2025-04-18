@@ -1,0 +1,307 @@
+/* Import Google Font - Poppins (llamativa y profesional) */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+body {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    /* Fondo con gradiente oscuro sutil para profundidad */
+    background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
+    margin: 0;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #ecf0f1; /* Texto claro por defecto sobre fondo oscuro */
+    line-height: 1.6;
+}
+
+.container {
+    /* Contenedor con fondo oscuro ligeramente más claro */
+    background-color: #34495e;
+    padding: 45px; /* Más padding */
+    border-radius: 15px; /* Bordes más redondeados */
+    /* Sombra sutil para dar efecto de flotación */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    width: 100%;
+    max-width: 800px; /* Un poco más ancho */
+    text-align: center;
+    /* Borde sutil con toque metálico */
+    border: 1px solid rgba(189, 195, 199, 0.3); /* Gris metálico transparente */
+}
+
+h1, h2 {
+    font-weight: 700;
+    /* Color de texto brillante, casi blanco */
+    color: #ffffff;
+    margin-bottom: 30px;
+    /* Sombra de texto ligera para resaltar */
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+h1 {
+    font-size: 2.5em;
+    text-transform: uppercase; /* Mayúsculas para impacto */
+    letter-spacing: 1px; /* Espaciado ligero */
+}
+
+h2 {
+    font-size: 2em;
+}
+
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #bdc3c7; /* Gris claro (plata) */
+    text-align: left;
+    font-size: 1em;
+}
+
+input[type="text"] {
+    width: calc(100% - 28px);
+    padding: 14px;
+    margin-bottom: 30px;
+    /* Fondo oscuro para el input */
+    background-color: #2c3e50;
+    /* Borde con toque metálico */
+    border: 1px solid #7f8c8d; /* Gris medio */
+    border-radius: 8px;
+    font-size: 1em;
+    color: #ecf0f1; /* Texto claro */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus {
+    /* Borde más brillante al enfocar */
+    border-color: #3498db; /* Azul brillante */
+    outline: 0;
+    /* Sombra exterior azul para indicar foco */
+    box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.35);
+}
+
+button {
+    /* Gradiente metálico para el botón principal */
+    background: linear-gradient(145deg, #bdc3c7, #95a5a6); /* Plata a gris */
+    color: #2c3e50; /* Texto oscuro para contraste */
+    border: none;
+    padding: 14px 35px; /* Más padding */
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: 700; /* Texto del botón más grueso */
+    text-transform: uppercase; /* Mayúsculas */
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+    display: inline-block;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra */
+}
+
+button:hover {
+    /* Aclarar gradiente al pasar el ratón */
+    background: linear-gradient(145deg, #dde1e2, #aab5b8);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
+    transform: translateY(-2px); /* Levantar ligeramente */
+}
+
+button:active {
+     /* Efecto de presionado */
+     transform: translateY(0px);
+     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+
+button:disabled {
+    /* Botón deshabilitado más opaco */
+    background: linear-gradient(145deg, #7f8c8d, #566573);
+    color: #bdc3c7;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Estilos Específicos del Examen */
+.exam-container .exam-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+    padding-bottom: 25px;
+    /* Borde inferior con toque metálico */
+    border-bottom: 1px solid rgba(189, 195, 199, 0.3);
+    text-align: left;
+}
+
+.exam-container h2 {
+    margin: 0 0 10px 0;
+    flex-basis: 100%;
+    text-align: center;
+}
+
+@media (min-width: 576px) {
+    .exam-container h2 {
+        flex-basis: auto;
+        text-align: left;
+        margin-bottom: 0;
+    }
+}
+
+
+#student-info {
+    font-size: 0.95em;
+    color: #bdc3c7; /* Plata */
+    margin-right: 15px;
+    margin-top: 5px;
+    font-weight: 600;
+}
+
+#timer {
+    font-weight: 700; /* Timer más grueso */
+    font-size: 1.15em;
+    color: #ffffff; /* Texto blanco */
+    /* Fondo rojo/naranja llamativo */
+    background: linear-gradient(45deg, #e74c3c, #e67e22);
+    padding: 6px 12px;
+    border-radius: 6px;
+    margin-top: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#question-container {
+    text-align: left;
+    margin-bottom: 40px;
+}
+
+#question-number {
+    font-weight: 600;
+    color: #95a5a6; /* Gris claro */
+    margin-bottom: 8px;
+    font-size: 0.9em;
+    text-transform: uppercase;
+}
+
+#question-text {
+    font-size: 1.3em; /* Pregunta más grande */
+    margin-bottom: 30px;
+    color: #ecf0f1; /* Blanco/gris claro */
+    font-weight: 600; /* Un poco más gruesa */
+}
+
+#options-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Estilo de cada opción */
+#options-list div {
+    margin-bottom: 15px;
+    /* Fondo ligeramente diferente para distinguir */
+    background-color: rgba(44, 62, 80, 0.7);
+    padding: 18px; /* Más padding */
+    border-radius: 10px;
+    /* Borde sutil */
+    border: 1px solid #566573;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+#options-list div:hover {
+    /* Aclarar al pasar el ratón */
+    background-color: rgba(52, 73, 94, 0.9);
+    border-color: #7f8c8d; /* Borde más visible */
+    transform: translateX(5px); /* Mover ligeramente a la derecha */
+}
+
+/* Estilo de Radio Buttons (Custom) */
+#options-list input[type="radio"] {
+    margin-right: 15px;
+    flex-shrink: 0;
+    width: 1.3em; /* Más grandes */
+    height: 1.3em;
+    cursor: pointer;
+    appearance: none;
+    /* Borde metálico */
+    border: 2px solid #7f8c8d;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    top: 0px;
+    transition: border-color 0.3s, background-color 0.3s;
+}
+
+#options-list input[type="radio"]:checked {
+    /* Borde azul brillante al seleccionar */
+    border-color: #3498db;
+}
+
+/* Punto interior azul al seleccionar */
+#options-list input[type="radio"]:checked::after {
+    content: '';
+    display: block;
+    width: 0.7em;
+    height: 0.7em;
+    border-radius: 50%;
+    /* Azul brillante */
+    background-color: #3498db;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#options-list input[type="radio"]:focus {
+     /* Sombra exterior para foco */
+     box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.35);
+     outline: none;
+}
+
+/* Estilo Label de opción */
+#options-list label {
+    cursor: pointer;
+    font-weight: 400;
+    color: #ecf0f1; /* Texto claro */
+    margin-bottom: 0;
+    display: inline;
+    flex-grow: 1;
+}
+
+/* Estilos Contenedor de Resultados */
+.results-container p {
+    font-size: 1.15em;
+    margin-bottom: 20px;
+    text-align: left;
+    color: #bdc3c7; /* Plata */
+}
+
+.results-container strong {
+    font-size: 1.25em;
+    font-weight: 700;
+}
+
+#score {
+    color: #2ecc71; /* Verde esmeralda brillante */
+    /* Efecto de texto neón sutil */
+    text-shadow: 0 0 5px rgba(46, 204, 113, 0.5), 0 0 10px rgba(46, 204, 113, 0.3);
+}
+
+#generate-pdf-btn {
+    /* Botón PDF con gradiente azul */
+    background: linear-gradient(145deg, #3498db, #2980b9);
+    color: #ffffff; /* Texto blanco */
+}
+
+#generate-pdf-btn:hover {
+    background: linear-gradient(145deg, #5dade2, #3498db);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+}
+
+/* Ocultar detalles de revisión */
+#review-details {
+    display: none;
+}

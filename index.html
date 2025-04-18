@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen de Semiología en Línea</title>
+    
+    <!-- Enlace al archivo CSS - ¡ASEGÚRATE QUE ESTA LÍNEA ES CORRECTA! -->
+    <link rel="stylesheet" href="styles.css"> 
+    
+    <!-- jsPDF Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+    <div class="container" id="name-container">
+        <h1>Examen de Semiología</h1>
+        <p>Por favor, ingrese su nombre completo para comenzar.</p>
+        <label for="student-name">Nombre Completo:</label>
+        <input type="text" id="student-name" required>
+        <button id="start-exam-btn">Comenzar Examen</button>
+    </div>
+
+    <div class="container exam-container" id="exam-container" style="display: none;">
+        <div class="exam-header">
+            <h2>Examen de Semiología</h2>
+            <div id="student-info">Estudiante: <span id="display-student-name"></span></div>
+            <div id="timer">Tiempo Restante: 60:00</div>
+        </div>
+        <div id="question-container">
+            <p id="question-number"></p>
+            <p id="question-text"></p>
+            <div id="options-list">
+                <!-- Options will be loaded here by JavaScript -->
+            </div>
+        </div>
+        <button id="next-question-btn">Siguiente Pregunta</button>
+    </div>
+
+    <div class="container results-container" id="results-container" style="display: none;">
+        <h2>Resultados del Examen</h2>
+        <p>Estudiante: <strong id="result-student-name"></strong></p>
+        <p>Puntuación Obtenida: <strong id="score"></strong></p>
+        <button id="generate-pdf-btn">Descargar Resultados en PDF</button>
+        <!-- Hidden div to store detailed results for PDF generation -->
+        <div id="review-details" style="display: none;"></div>
+    </div>
+
+    <!-- Enlace al archivo JavaScript -->
+    <script src="script.js"></script> 
+</body>
+</html>
